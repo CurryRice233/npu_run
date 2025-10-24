@@ -6,10 +6,10 @@ if [ $# -eq 0 ]; then
 fi
 
 output=$(npu-smi info -l)
-total_count=$(echo "$output" | grep -o 'Total Count\s*:\s[0-9]*' | head -n1 | sed 's/.*:\s*\([0-9]*\)/\1/')
-chip_count=$(echo "$output" | grep -o 'Chip Count\s*:\s[0-9]*' | head -n1 | sed 's/.*:\s*\([0-9]*\)/\1/')
+total_count=$(echo "$output" | grep -o 'Total Count\s*:\s*[0-9]*' | head -n1 | sed 's/.*:\s*\([0-9]*\)/\1/')
+chip_count=$(echo "$output" | grep -o 'Chip Count\s*:\s*[0-9]*' | head -n1 | sed 's/.*:\s*\([0-9]*\)/\1/')
 if [[ -z "$total_count" || -z "$chip_count" ]]; then
-  echo "Error: Faild to parse Total Count or Chip Count from npu-smi output." >&2
+  echo "Error: Failed to parse Total Count or Chip Count from npu-smi output." >&2
   exit 1
 fi
 
@@ -21,14 +21,14 @@ WAIT_COUNT=0
 
 while true; do
   OUTPUT=$(npu-smi info)
-  COUNT=$(echo "OUTPUT" | grep -o 'No running processes found in NPU' | wc -l)
+  COUNT=$(echo "$OUTPUT" | grep -o 'No running processes found in NPU' | wc -l)
 
   if [ "$COUNT" -ge "$COUNT_THRESHOLD"]; then
     bash $SCRIPT_TO_EXECUTE
     break
   else
     WAIT_COUNT=$((WAIT_COUNT + 1))
-    echo "Waiting...$WAIT_COUNT"
+    echo "Waiting... $WAIT_COUNT"
     sleep 10
   fi
 done

@@ -23,7 +23,7 @@ while true; do
   OUTPUT=$(npu-smi info)
   COUNT=$(echo "OUTPUT" | grep -o 'No running processes found in NPU' | wc -l)
 
-  if [ "$COUNT" -ge "$COUNT_THRESHOLD"]: the
+  if [ "$COUNT" -ge "$COUNT_THRESHOLD"]; then
     bash $SCRIPT_TO_EXECUTE
     break
   else
